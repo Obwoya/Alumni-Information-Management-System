@@ -1,0 +1,33 @@
+{include file="index/header" /}
+
+<div class="col-6 ">
+    <h2>个人信息</h2>
+    <form action="/thinkphp/public/index.php?s=/index/index/changeinfo" method="post">
+        姓名: {$list['姓名']}<br>
+        学号: {$list['学号']}<br>
+        方向: {$list['方向']}<br>
+        导师: {$list['导师']}<br>
+        入学: {$list['年级（入学）']}年<br>
+        籍贯: {$list['籍贯']}<br>
+        手机: {$list['手机']}<br>
+        邮箱: {$list['邮箱']}<br>
+        省份: {$list['省份']}<br>
+        城市: {$list['城市']}<br>
+        地址: {$list['通讯地址']}<br>
+        行业: {$list['行业']}<br>
+        单位: {$list['现工作单位']}<br>
+        职务: {$list['职务']}<br>
+
+        <input type="submit"  value="完善个人信息">
+    </form>
+</div>
+
+<div class="col-1">
+</div>
+
+<div class="col-2 menu">
+    <form action="/thinkphp/public/index.php?s=/index/index/logout" method="post">
+        <input type="button" value="您好，{$username}" onclick="">
+        <input value="退出" type="submit">
+    </form>
+    {include file="index/footer" /}

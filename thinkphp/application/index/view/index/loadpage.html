@@ -1,16 +1,31 @@
 {include file="index/header" /}
 
-
-  <div class="col-6 ">
-    <form action="?s=/index/index/login" method="post">
-    学号: <input type="text" name="id" value=""><br>
-    密码: <input type="password" name="password" value="" placeholder="初始密码为生日八位"><br>
-
-    <input type="submit" value="提交">
-    </form>
+<div class="py-5 bg-gradient filter-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3"> </div>
+      <div class="col-md-6">
+        <div class="card text-white p-5 bg-primary">
+          <div class="card-body">
+            <h1 class="mb-4">登陆
+              <br> </h1>
+            <form action="/thinkphp/public/?s=index/index/login" method="post">
+              <div class="form-group">
+                <label>学号
+                  <br> </label>
+                <input type="学号" class="form-control" name="id" placeholder="学号"> </div>
+              <div class="form-group">
+                <label>密码
+                  <br> </label>
+                <input type="password" class="form-control" name="password" placeholder="初始密码为八位生日"> </div>
+              <button type="submit" class="btn btn-secondary">登陆
+                <br> </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="col-1">
-  </div>
+</div>
 
-    <div class="col-2 menu">
       {include file="index/footer" /}

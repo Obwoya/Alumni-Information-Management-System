@@ -1,0 +1,71 @@
+{include file="index/header" /}
+
+<div class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <img class="d-block img-fluid img-thumbnail" src="/thinkphp/public/static/image/头像_1.JPEG"> </div>
+                                    <div class="col-md-6">
+                                        <div class="row"><br><br></div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <a class="btn btn-primary text-danger" href="#">修改登陆密码</a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12"><br><br></div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-12">
+                                                <a class="btn btn-secondary" href="/thinkphp/public/?s=index/index/changeinfo">修改个人信息</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">{$list['姓名']} {$list['学号']}</div>
+                            <div class="card-body">
+                                <h6>方向: {$list['方向']}</h6>
+                                <h6>导师: {$list['导师']}</h6>
+                                <h6>入学: {$list['年级（入学）']}年</h6>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-8 ">
+                        <div class="card">
+                            <div class="card-body">
+                                <form action="/thinkphp/public/?s=index/index/submit" method="post">
+                                    方向: <input class="form-control" type="text" name="方向" value={$list['方向']}><br>
+                                    籍贯: <input class="form-control" type="text" name="籍贯" value="{$list['籍贯']}"><br>
+                                    手机: <input class="form-control" type="number" name="手机" value="{$list['手机']}"><br>
+                                    邮箱: <input class="form-control" type="email" name="邮箱" value="{$list['邮箱']}"><br>
+                                    省份: <input class="form-control" type="text" name="省份" value="{$list['省份']}"><br>
+                                    城市: <input class="form-control" type="text" name="城市" value="{$list['城市']}"><br>
+                                    地址: <input class="form-control" type="text" name="通讯地址" value="{$list['通讯地址']}"><br>
+                                    行业: <input class="form-control" type="text" name="行业" value="{$list['行业']}"><br>
+                                    单位: <input class="form-control" type="text" name="现工作单位" value="{$list['现工作单位']}"><br>
+                                    职务: <input class="form-control" type="text" name="职务" value="{$list['职务']}"><br>
+                                    <input class="btn mt-2 btn-outline-dark  btn-block btn-success" type="submit" value="提交">
+
+                                </form>
+                            </div>
+                            <!--div class="card-body">
+                                <a href="#" class="card-link">修改个人信息</a>
+                                <a href="#" class="card-link">修改头像</a>
+                            </div-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{include file="index/footer" /}

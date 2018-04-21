@@ -13,29 +13,14 @@ class Index extends Controller
         if(Session::has('name')){
             $username=$request->session('name');
             $this->assign('username',$username);
-            return view('homepagesuc');
+            return view('dongtai');
         }
         else{
             return view('loadpage');
         }
 
     }
-    public function home(Request $request)
-    {
-        //首页，二者区别在于是否登陆，button显示不同
-        if(Session::has('name')){
-            $this->assign('username',$request->session('name'));
-            return view('homepagesuc');
-        }
-        else{
-            return view('homepage');
-        }
 
-    }
-    public function admin(Request $request)
-    {
-        return view('admin');
-    }
 
     public function login(Request $request)
     {
@@ -46,7 +31,7 @@ class Index extends Controller
             if ($list[0]['password'] == $request->post('password')) {
                 //$db->where('id', $request->post('id'))->update(['status' => 1]);
                 Session::set('name',$request->post('id'));
-                $this->success('登录成功'+Session::get('name'),'/thinkphp/public/index.php?s=index/index/index');
+                $this->success('登录成功，'.Session::get('name'),'/thinkphp/public/');
             } else {
                 $this->error('密码错误');
             }
@@ -54,27 +39,16 @@ class Index extends Controller
             $this->error('用户名不存在');
         }
     }
+
     public function logout(Request $request)
     {
         //退出，销毁session
         $db = db('users');
         Session::delete('name');
-        return view('homepage');
+        return view('loadpage');
     }
-    public function information(Request $request)
-    {
-        if(Session::has('name')){
-            $db = db('userinfo');
-            $list = $db->where('学号',$request->session('name'))->select();
-            $this->assign('list',$list[0]);
-            $this->assign('username',$request->session('name'));
-            return view('infomation');
-        }
-        else{
-            $this->error('请先登录');
-        }
 
-    }
+
     public function changeinfo(Request $request)
     {
         if(Session::has('name')){
@@ -82,7 +56,7 @@ class Index extends Controller
             $list = $db->where('学号',$request->session('name'))->select();
             $this->assign('list',$list[0]);
             $this->assign('username',$request->session('name'));
-            return view('submit');
+            return view('submit2');
         }
         else{
             $this->error('请先登录');
@@ -100,7 +74,30 @@ class Index extends Controller
                     'd4'=>$request->post('邮箱'),'d5'=>$request->post('省份'),'d6'=>$request->post('城市'),
                     'd7'=>$request->post('通讯地址'),'d8'=>$request->post('行业'),'d9'=>$request->post('现工作单位'),
                     'd10'=>$request->post('职务'),'id'=>$request->session('name')]);
-            $this->success('修改成功', '/thinkphp/public/index.php?s=index/index/information');
+            $this->success('修改成功', '/thinkphp/public/index/index/info');
+        }
+        else{
+            $this->error('请先登录');
+        }
+    }
+
+    //活动页面
+    public function huodong(){
+        return view('huodong');
+    }
+    //学院动态
+    public function dongtai(){
+        return view('dongtai');
+    }
+
+    public function info(Request $request){
+        if(Session::has('name')){
+            $db = db('userinfo');
+            $list = $db->where('学号',$request->session('name'))->select();
+            $this->assign('list',$list[0]);
+            $this->assign('username',$request->session('name'));
+            //echo dump($list[0]);
+            return view('information');
         }
         else{
             $this->error('请先登录');

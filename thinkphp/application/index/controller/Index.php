@@ -9,6 +9,7 @@ class Index extends Controller
 {
     public function index(Request $request)
     {
+        
         //如果已登陆就跳转到登陆成功页面，否则进入登陆页面
         if(Session::has('name')){
             $username=$request->session('name');
@@ -31,7 +32,7 @@ class Index extends Controller
             if ($list[0]['password'] == $request->post('password')) {
                 //$db->where('id', $request->post('id'))->update(['status' => 1]);
                 Session::set('name',$request->post('id'));
-                $this->success('登录成功，'.Session::get('name'),'/thinkphp/public/');
+                $this->success('登录成功，'.Session::get('name'),'index');
             } else {
                 $this->error('密码错误');
             }
@@ -74,7 +75,7 @@ class Index extends Controller
                     'd4'=>$request->post('邮箱'),'d5'=>$request->post('省份'),'d6'=>$request->post('城市'),
                     'd7'=>$request->post('通讯地址'),'d8'=>$request->post('行业'),'d9'=>$request->post('现工作单位'),
                     'd10'=>$request->post('职务'),'id'=>$request->session('name')]);
-            $this->success('修改成功', '/thinkphp/public/index/index/info');
+            $this->success('修改成功', 'index/index/info');
         }
         else{
             $this->error('请先登录');

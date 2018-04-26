@@ -9,9 +9,9 @@ class Index extends Controller
 {
     public function index(Request $request)
     {
-        
+        Session::prefix('stu');
         //如果已登陆就跳转到登陆成功页面，否则进入登陆页面
-        if(Session::has('name')){
+        if(Session::has('name','stu')){
             $username=$request->session('name');
             $this->assign('username',$username);
             return view('dongtai');
@@ -31,8 +31,8 @@ class Index extends Controller
         if ($list) {
             if ($list[0]['password'] == $request->post('password')) {
                 //$db->where('id', $request->post('id'))->update(['status' => 1]);
-                Session::set('name',$request->post('id'));
-                $this->success('登录成功，'.Session::get('name'),'index');
+                Session::set('name',$request->post('id'),'stu');
+                $this->success('登录成功，'.Session::get('name','stu'),'index');
             } else {
                 $this->error('密码错误');
             }
@@ -45,14 +45,14 @@ class Index extends Controller
     {
         //退出，销毁session
         $db = db('users');
-        Session::delete('name');
+        Session::delete('name','stu');
         return view('loadpage');
     }
 
 
     public function changeinfo(Request $request)
     {
-        if(Session::has('name')){
+        if(Session::has('name','stu')){
             $db = db('userinfo');
             $list = $db->where('学号',$request->session('name'))->select();
             $this->assign('list',$list[0]);
@@ -66,7 +66,7 @@ class Index extends Controller
     }
     public function submit(Request $request)
     {
-        if(Session::has('name')){
+        if(Session::has('name','stu')){
             //echo dump($request->post());
             $db = db('userinfo');
             Db::execute("update userinfo set 方向=:d1,籍贯=:d2,手机=:d3,邮箱=:d4,省份=:d5,城市=:d6,
@@ -75,7 +75,7 @@ class Index extends Controller
                     'd4'=>$request->post('邮箱'),'d5'=>$request->post('省份'),'d6'=>$request->post('城市'),
                     'd7'=>$request->post('通讯地址'),'d8'=>$request->post('行业'),'d9'=>$request->post('现工作单位'),
                     'd10'=>$request->post('职务'),'id'=>$request->session('name')]);
-            $this->success('修改成功', 'index/index/info');
+            $this->success('修改成功', '?s=index/index/info');
         }
         else{
             $this->error('请先登录');
@@ -92,7 +92,7 @@ class Index extends Controller
     }
 
     public function info(Request $request){
-        if(Session::has('name')){
+        if(Session::has('name','stu')){
             $db = db('userinfo');
             $list = $db->where('学号',$request->session('name'))->select();
             $this->assign('list',$list[0]);

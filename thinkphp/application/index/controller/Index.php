@@ -7,11 +7,11 @@ use app\index\model\User;
 use think\Db;
 class Index extends Controller
 {
+    //post 用于获取api
     private function request_post($url = '', $post_data = array()) {//url为必传  如果该地址不需要参数就不传
         if (empty($url)) {
             return false;
         }
-
         if(!empty($post_data)){
             $params = '';
             foreach ( $post_data as $k => $v )
@@ -30,12 +30,15 @@ class Index extends Controller
         curl_close($ch);
         return $data;
     }
+
+    //首页
     public function index(Request $request)
     {
+        //若已经登录
         if(Session::has('name','stu')){
             return view('dongtai');
         }
-        #$jso=null;
+        //微信借口登录
         else if(preg_match('/=\S+&/',$request->url(),$st)){
             preg_match('/=\S+&/',$request->url(),$st);
             #print_r($st);
@@ -52,6 +55,7 @@ class Index extends Controller
                 return view('dongtai');
             }
         }
+        //网址的第二种情况
         else if(preg_match('/=\S+/',$request->url(),$st)){
             preg_match('/=\S+/',$request->url(),$st);
             #print_r($st);
@@ -68,18 +72,16 @@ class Index extends Controller
                 return view('dongtai');
             }
         }
-
-
-        //如果已登陆就跳转到登陆成功页面，否则进入登陆页面
-
-
+        //否则进入登陆页面
         else{
             #$this->assign('username',null);
             return view('loadpage');
         }
 
     }
-    public function index2(Request $request)
+
+    //留存旧版首页代码。可删
+    private function index2(Request $request)
     {
         Session::prefix('stu');
         //如果已登陆就跳转到登陆成功页面，否则进入登陆页面
@@ -94,10 +96,9 @@ class Index extends Controller
 
     }
 
-
+    //处理登录
     public function login(Request $request)
     {
-        //处理登录
         $db = db('users');
         $list = $db->where('id', $request->post('id'))->select();
         if ($list) {
@@ -113,6 +114,7 @@ class Index extends Controller
         }
     }
 
+    //退出
     public function logout(Request $request)
     {
         //退出，销毁session
@@ -122,7 +124,7 @@ class Index extends Controller
         return view('loadpage');
     }
 
-
+    //修改个人信息
     public function changeinfo(Request $request)
     {
         if(Session::has('name','stu')){
@@ -137,6 +139,8 @@ class Index extends Controller
         }
 
     }
+
+    //提交修改的个人信息
     public function submit(Request $request)
     {
         if(Session::has('name','stu')){
@@ -164,23 +168,23 @@ class Index extends Controller
         return view('dongtai');
     }
 
+    //个人信息页面
     public function info(Request $request){
         if(Session::has('name','stu')){
             $db = db('userinfo');
             $list = $db->where('学号',$request->session('name'))->select();
-            if($list){
+            if($list){  //数据库如果已有该人信息，直接读出
                 $this->assign('list',$list[0]);
-                $this->assign('username',$request->session('name'));
                 //echo dump($list[0]);
                 return view('information');
             }
-            else{
-                $this->assign('list',null);
-                $this->assign('username',$request->session('name'));
+            else{   //数据库若无此人信息，插入信息，再读出给前端
+                Db::execute("insert into userinfo (学号,姓名) values (?,?)",[$request->session('name'),$request->session('cname')]);
+                $list = $db->where('学号',$request->session('name'))->select();
+                $this->assign('list',$list);
                 //echo dump($list[0]);
                 return view('information');
             }
-
         }
         else{
             $this->error('请先登录');

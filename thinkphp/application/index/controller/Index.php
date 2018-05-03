@@ -7,7 +7,79 @@ use app\index\model\User;
 use think\Db;
 class Index extends Controller
 {
+    private function request_post($url = '', $post_data = array()) {//url为必传  如果该地址不需要参数就不传
+        if (empty($url)) {
+            return false;
+        }
+
+        if(!empty($post_data)){
+            $params = '';
+            foreach ( $post_data as $k => $v )
+            {
+                $params.= "$k=" . urlencode($v). "&" ;
+                // $params.= "$k=" . $v. "&" ;
+            }
+            $params = substr($params,0,-1);
+        }
+        $ch = curl_init();//初始化curl
+        curl_setopt($ch, CURLOPT_URL,$url);//抓取指定网页
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);//要求结果为字符串且输出到屏幕上
+        curl_setopt($ch, CURLOPT_POST, 1);//post提交方式
+        if(!empty($post_data))curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
+        $data = curl_exec($ch);//运行curl
+        curl_close($ch);
+        return $data;
+    }
     public function index(Request $request)
+    {
+        if(Session::has('name','stu')){
+            return view('dongtai');
+        }
+        #$jso=null;
+        else if(preg_match('/=\S+&/',$request->url(),$st)){
+            preg_match('/=\S+&/',$request->url(),$st);
+            #print_r($st);
+            if($st){
+                $post_data['appid']='sspkuku4ahyvh99n4k';
+                $post_data['appsecret']='ee2e1adef43e111a9ad2b3d01ffe3fd0';
+                $post_data['content']=substr($st[0],1,strlen($st[0])-2);
+
+                $jso=$this->request_post('https://icampus.ss.pku.edu.cn/iaaa/index.php/Home/OpenApi/decode',$post_data);
+                $jso=json_decode($jso);
+                #print_r($jso);
+                Session::set('cname',$jso->data->name);
+                Session::set('name',$jso->data->card_number,'stu');
+                return view('dongtai');
+            }
+        }
+        else if(preg_match('/=\S+/',$request->url(),$st)){
+            preg_match('/=\S+/',$request->url(),$st);
+            #print_r($st);
+            if($st){
+                $post_data['appid']='sspkuku4ahyvh99n4k';
+                $post_data['appsecret']='ee2e1adef43e111a9ad2b3d01ffe3fd0';
+                $post_data['content']=substr($st[0],1,strlen($st[0])-1);
+
+                $jso=$this->request_post('https://icampus.ss.pku.edu.cn/iaaa/index.php/Home/OpenApi/decode',$post_data);
+                $jso=json_decode($jso);
+                #print_r($jso);
+                Session::set('cname',$jso->data->name);
+                Session::set('name',$jso->data->card_number,'stu');
+                return view('dongtai');
+            }
+        }
+
+
+        //如果已登陆就跳转到登陆成功页面，否则进入登陆页面
+
+
+        else{
+            #$this->assign('username',null);
+            return view('loadpage');
+        }
+
+    }
+    public function index2(Request $request)
     {
         Session::prefix('stu');
         //如果已登陆就跳转到登陆成功页面，否则进入登陆页面
@@ -46,6 +118,7 @@ class Index extends Controller
         //退出，销毁session
         $db = db('users');
         Session::delete('name','stu');
+        Session::delete('cname');
         return view('loadpage');
     }
 
@@ -75,7 +148,7 @@ class Index extends Controller
                     'd4'=>$request->post('邮箱'),'d5'=>$request->post('省份'),'d6'=>$request->post('城市'),
                     'd7'=>$request->post('通讯地址'),'d8'=>$request->post('行业'),'d9'=>$request->post('现工作单位'),
                     'd10'=>$request->post('职务'),'id'=>$request->session('name')]);
-            $this->success('修改成功', '?s=index/index/info');
+            $this->success('修改成功', url('/?s=index/index/info'));
         }
         else{
             $this->error('请先登录');
@@ -95,10 +168,19 @@ class Index extends Controller
         if(Session::has('name','stu')){
             $db = db('userinfo');
             $list = $db->where('学号',$request->session('name'))->select();
-            $this->assign('list',$list[0]);
-            $this->assign('username',$request->session('name'));
-            //echo dump($list[0]);
-            return view('information');
+            if($list){
+                $this->assign('list',$list[0]);
+                $this->assign('username',$request->session('name'));
+                //echo dump($list[0]);
+                return view('information');
+            }
+            else{
+                $this->assign('list',null);
+                $this->assign('username',$request->session('name'));
+                //echo dump($list[0]);
+                return view('information');
+            }
+
         }
         else{
             $this->error('请先登录');

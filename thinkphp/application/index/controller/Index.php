@@ -99,13 +99,18 @@ class Index extends Controller
     //处理登录
     public function login(Request $request)
     {
+        //处理登录
         $db = db('users');
         $list = $db->where('id', $request->post('id'))->select();
         if ($list) {
             if ($list[0]['password'] == $request->post('password')) {
                 //$db->where('id', $request->post('id'))->update(['status' => 1]);
+                $db = db('userinfo');
+                $list = $db->where('学号',$request->post('id'))->select();
+
+                Session::set('cname',$list[0]["姓名"],'stu');
                 Session::set('name',$request->post('id'),'stu');
-                $this->success('登录成功，'.Session::get('name','stu'),'index');
+                $this->success('登录成功，'.Session::get('name','stu'),url('/?s=index/index/index'));
             } else {
                 $this->error('密码错误');
             }

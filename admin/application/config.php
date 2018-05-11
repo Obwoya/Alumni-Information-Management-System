@@ -58,7 +58,7 @@ return [
     // 禁止访问模块
     'deny_module_list'       => ['common'],
     // 默认控制器名
-    'default_controller'     => 'Index',
+    'default_controller'     => 'Admin',
     // 默认操作名
     'default_action'         => 'index',
     // 默认验证器
@@ -203,7 +203,7 @@ return [
         // SESSION_ID的提交变量,解决flash上传跨域
         'var_session_id' => '',
         // SESSION 前缀
-        'prefix'         => 'stu',
+        'prefix'         => 'admin',
         // 驱动方式 支持redis memcache memcached
         'type'           => '',
         // 是否自动开启 SESSION

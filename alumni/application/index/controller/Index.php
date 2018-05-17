@@ -240,10 +240,10 @@ class Index extends Controller
                     'd10'=>$request->post('职务'),'d11'=>$request->post('性别'),'d12'=>$request->post('导师'),
                     'd13'=>$request->post('入学'),'d14'=>$request->post('毕业'),'d15'=>$request->post('出生日期'),
                     'd16'=>$request->post('邮编'),'id'=>$request->session('name')]);
-            $this->success('修改成功', url('/'));
+            return view('success');
         }
         else{
-            $this->error('请先登录');
+            $this->error('请先登录', url('/'));
         }
     }
 

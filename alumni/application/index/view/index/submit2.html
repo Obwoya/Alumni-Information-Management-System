@@ -9,6 +9,9 @@
     <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui.css" type="text/css">
     <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui2.css" type="text/css">
     <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui3.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="http://weui.shanliwawa.top/weui/zepto.min.js"></script>
     <script src="http://weui.shanliwawa.top/weui/iscroll.js"></script>
     <script src="http://weui.shanliwawa.top/weui/picker.js"></script>
@@ -27,50 +30,9 @@
                     }
                 ]
             });
-            $("#text1").picker({
-                title: "他们都喜欢什么",
-                cols: [
-                    {
-                        textAlign: 'center',
-                        values: ['刘备', '关羽','张飞']
-                    },
-                    {
-                        textAlign: 'center',
-                        values: ['喜欢', '憎恶', '基情', '可怜']
-                    },
-                    {
-                        textAlign: 'center',
-                        values: ['吃西瓜', '吃盒饭', '喝酒']
-                    }
-                ]
-            });
-
 
             $("#date").datetimePicker({title:"选择日期",m:1});
-            $("#time").datetimePicker({title:"选择日期时间",min:'2015-12-10',max:'2050-10-01'});
-            $("#time2").picker({title:"选择时间",
-                cols: [
-                    {
-                        textAlign: 'center',
-                        values: (function () {
-                            var arr = [];
-                            for (var i = 0; i <= 23; i++) { arr.push(i < 10 ? '0' + i : i); }
-                            return arr;
-                        })()
 
-                    },
-                    {
-                        textAlign: 'center',
-                        values:  (function () {
-                            var arr = [];
-                            for (var i = 0; i <= 59; i++) { arr.push(i < 10 ? '0' + i : i); }
-                            return arr;
-                        })(),
-                    }
-                ]});
-            $("#ssx").cityPicker({
-                title: "选择省市县"
-            });
 
             $("#ss").cityPicker({
                 title: "选择省市",
@@ -81,12 +43,9 @@
                 showDistrict: false
             });
 
-
-
         });
 
     </script>
-
 
 </head>
 
@@ -123,7 +82,7 @@
 
     <div class="container">
         <a class="navbar-brand" href="#">
-            <img src="__STATIC__/image/logo_1.png" width="300" class="d-inline-block align-top ml-auto p-0" alt=""> </a>
+            <img src="__STATIC__/image/logo_1.png" width="250" class="d-inline-block align-top ml-auto p-0" alt=""> </a>
         <div class=" text-center justify-content-end" id="navbar2SupportedContent">
             <ul class="navbar-nav">
                 <li class="nav-item">
@@ -136,7 +95,7 @@
 </nav>
 <div class="py-3">
     <div class="container">
-                <form id="form" action="{:url('index/index/submitwe')}" method="post">
+                <form id="form" action="{:url('/?s=index/index/submitwe')}" method="post">
                     <div class="weui_cells weui_cells_form ">
                         <div class="weui_cell">
                             <div class="weui_cell_hd"><label for="" class="weui_label">性别:</label></div>
@@ -229,7 +188,7 @@
                             </div>
                         </div>
                         <div class="weui_btn_area">
-                            <input class="btn mt-2 btn-block btn-primary" type="submit" value="提交" id="formSubmitBtn">
+                            <input class="weui_btn weui_btn_primary" type="submit" value="提交" id="formSubmitBtn">
                         </div>
                     </div>
                 </form>
@@ -280,3 +239,6 @@
     </div>
 </div>
 
+</body>
+
+</html>

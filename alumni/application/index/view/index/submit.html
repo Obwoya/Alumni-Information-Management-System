@@ -23,7 +23,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col-md-12">
-                                                <a class="btn btn-secondary" href="{:url('index/index/changeinfo')}">修改个人信息</a>
+                                                <a class="btn btn-secondary" href="{:url('/?s=index/index/changeinfo')}">修改个人信息</a>
                                             </div>
                                         </div>
                                     </div>
@@ -42,7 +42,7 @@
                     <div class="col-md-8 ">
                         <div class="card">
                             <div class="card-body">
-                                <form action="{:url('index/index/submit')}" method="post">
+                                <form action="{:url('/?s=index/index/submit')}" method="post">
                                     方向: <input class="form-control" type="text" name="方向" value={$list['方向']}><br>
                                     籍贯: <input class="form-control" type="text" name="籍贯" value="{$list['籍贯']}"><br>
                                     手机: <input class="form-control" type="number" name="手机" value="{$list['手机']}"><br>

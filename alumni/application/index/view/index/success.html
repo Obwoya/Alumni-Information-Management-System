@@ -1,18 +1,21 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>success</title>
-
     <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui.css" type="text/css">
-
+    <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui2.css" type="text/css">
+    <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui3.css" type="text/css">
+    <script src="http://weui.shanliwawa.top/weui/zepto.min.js"></script>
 </head>
-<body>
-<div class="weui_msg hide" id="msg1">
+<body ontouchstart style="background-color: #f8f8f8;">
+<div class="py-3">
+    <div class="container">
+<div class="weui_msg">
     <div class="weui_icon_area"><i class="weui_icon_success weui_icon_msg"></i></div>
     <div class="weui_text_area">
         <h2 class="weui_msg_title">操作成功</h2>
-        <p class="weui_msg_desc">内容详情，可根据实际需要安排，如果换行则不超过规定长度</p>
+        <p class="weui_msg_desc">您已成功修改个人信息</p>
     </div>
     <div class="weui_opr_area">
         <p class="weui_btn_area">
@@ -20,10 +23,8 @@
             <a href="{:url('/?s=index/index/changeinfowe')}" class="weui_btn weui_btn_default">返回重新填写</a>
         </p>
     </div>
-    <div class="weui_extra_area">
-
+</div>
     </div>
 </div>
-
 </body>
 </html>

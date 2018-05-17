@@ -2,8 +2,7 @@
 <html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
     <link rel="stylesheet" href="__STATIC__/css/theme.css" type="text/css">
     <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui.css" type="text/css">
@@ -199,6 +198,7 @@
         $("#formSubmitBtn").on("click", function(event){
             $form.validate(function(error){
                 if(error){
+                    alert('信息提交有误');
                     event.preventDefault();
                 }else{
 

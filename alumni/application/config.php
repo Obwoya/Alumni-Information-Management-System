@@ -151,7 +151,7 @@ return [
 
     // 异常页面的模板文件
     'exception_tmpl'         => THINK_PATH . 'tpl' . DS . 'think_exception.tpl',
-
+    //'exception_tmpl'         =>  'index/success',
     // 错误显示信息,非调试模式有效
     'error_message'          => '页面错误！请稍后再试～',
     // 显示错误信息
@@ -242,4 +242,10 @@ return [
         'var_page'  => 'page',
         'list_rows' => 15,
     ],
+    'http_exception_template' => [
+// 定义错误的重定向页面地址
+        404 => ROOT_PATH.'404.html',
+        500 => ROOT_PATH.'500.html',
+    ],
+
 ];

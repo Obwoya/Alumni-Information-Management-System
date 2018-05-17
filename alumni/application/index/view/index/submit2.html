@@ -1,71 +1,244 @@
-{include file="index/header" /}
+<!DOCTYPE html>
+<html>
 
-<div class="py-5">
+<head>
+    <meta charset="UTF-8" name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="__STATIC__/css/theme.css" type="text/css">
+    <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui.css" type="text/css">
+    <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui2.css" type="text/css">
+    <link rel="stylesheet" href="http://weui.shanliwawa.top/weui/style/weui3.css" type="text/css">
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <script src="http://weui.shanliwawa.top/weui/zepto.min.js"></script>
+    <script src="http://weui.shanliwawa.top/weui/iscroll.js"></script>
+    <script src="http://weui.shanliwawa.top/weui/picker.js"></script>
+    <script src="http://weui.shanliwawa.top/weui/picker-city.js"></script>
+    <script>
+        $(function(){
+
+            $("#text2").picker({
+                title: "你的性别",
+                toolbarCloseText:'确定',
+                cols: [
+                    {
+                        textAlign: 'center',
+                        values: ['男','女'],
+                        displayValues:['男','女']
+                    }
+                ]
+            });
+
+            $("#date").datetimePicker({title:"选择日期",m:1});
+
+
+            $("#ss").cityPicker({
+                title: "选择省市",
+                showDistrict: false
+            });
+            $("#ss2").cityPicker({
+                title: "选择省市",
+                showDistrict: false
+            });
+
+        });
+
+    </script>
+
+</head>
+
+<body ontouchstart style="background-color: #f8f8f8;">
+<nav class="navbar navbar-expand-md navbar-dark text-right text-lowercase border-primary bg-dark">
     <div class="container">
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <div class="col-md-4">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <img class="d-block img-fluid img-thumbnail" src="__STATIC__/image/头像_1.JPEG"> </div>
-                                    <div class="col-md-6">
-                                        <div class="row"><br><br></div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <a class="btn btn-primary text-danger" href="#">修改登陆密码</a>
-                                            </div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12"><br><br></div>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-12">
-                                                <a class="btn btn-secondary" href="{:url('index/index/changeinfo')}">修改个人信息</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <div class="card-header">{$list['姓名']} {$list['学号']}</div>
-                            <div class="card-body">
-                                <h6>方向: {$list['方向']}</h6>
-                                <h6>导师: {$list['导师']}</h6>
-                                <h6>入学: {$list['年级（入学）']}年</h6>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-8 ">
-                        <div class="card">
-                            <div class="card-body">
-                                <form action="{:url('index/index/submit')}" method="post">
-                                    方向: <input class="form-control" type="text" name="方向" value={$list['方向']}><br>
-                                    籍贯: <input class="form-control" type="text" name="籍贯" value="{$list['籍贯']}"><br>
-                                    手机: <input class="form-control" type="number" name="手机" value="{$list['手机']}"><br>
-                                    邮箱: <input class="form-control" type="email" name="邮箱" value="{$list['邮箱']}"><br>
-                                    省份: <input class="form-control" type="text" name="省份" value="{$list['省份']}"><br>
-                                    城市: <input class="form-control" type="text" name="城市" value="{$list['城市']}"><br>
-                                    地址: <input class="form-control" type="text" name="通讯地址" value="{$list['通讯地址']}"><br>
-                                    行业: <input class="form-control" type="text" name="行业" value="{$list['行业']}"><br>
-                                    单位: <input class="form-control" type="text" name="现工作单位" value="{$list['现工作单位']}"><br>
-                                    职务: <input class="form-control" type="text" name="职务" value="{$list['职务']}"><br>
-                                    <input class="btn mt-2 btn-outline-dark  btn-block btn-success" type="submit" value="提交">
-
-                                </form>
-                            </div>
-                            <!--div class="card-body">
-                                <a href="#" class="card-link">修改个人信息</a>
-                                <a href="#" class="card-link">修改头像</a>
-                            </div-->
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <a class="navbar-brand" href="{:url('/')}">首页|欢迎{$Think.session.cname}</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://www.ss.pku.edu.cn/">北京大学软件与微电子学院</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="https://icampus.ss.pku.edu.cn/">综合信息服务平台</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://bbs.ss.pku.edu.cn/">教学论坛</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">内推入口</a>
+                </li>
+            </ul>
+            <form class="form-inline m-0 p-0">
+                <input class="form-control mr-2" type="text" placeholder="Search">
+                <button class="btn btn-primary" type="submit">Search</button>
+            </form>
         </div>
     </div>
+</nav>
+<nav class="navbar navbar-expand-md navbar-dark bg-headblue bg-secondary">
+
+    <div class="container">
+        <a class="navbar-brand" href="#">
+            <img src="__STATIC__/image/logo_1.png" width="250" class="d-inline-block align-top ml-auto p-0" alt=""> </a>
+        <div class=" text-center justify-content-end" id="navbar2SupportedContent">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://www.pku.edu.cn/campuslife/xl/index.htm">
+                        <i class="fa d-inline fa-lg fa-bookmark-o"></i>校历</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<div class="py-3">
+    <div class="container">
+                <form id="form" action="{:url('/?s=index/index/submitwe')}" method="post">
+                    <div class="weui_cells weui_cells_form ">
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">性别:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" required value="{$list['性别']}" id='text2' name="性别"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label class="weui_label">方向:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" required value="{$list['方向']}" name="方向"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label class="weui_label">导师:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" required value="{$list['导师']}" name="导师"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">入学年份:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="number" required pattern="[2][0-9]{3}" value="{$list['年级（入学）']}" name="入学" tips="入学年份不正确"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">毕业年份:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="number" required pattern="[2][0-9]{3}" value="{$list['毕业年份']}" name="毕业" tips="毕业年份不正确"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">出生日期:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" required value="{$list['出生日期']}" id='date' name="出生日期"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label class="weui_label">现工作单位:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" value="{$list['现工作单位']}" name="现工作单位"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label class="weui_label">行业:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" value="{$list['行业']}" name="行业"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label class="weui_label">职务:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" value="{$list['职务']}" name="职务"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">手机:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="number" required pattern="[0-9]{11}" value="{$list['手机']}" name="手机" tips="手机号不正确"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">邮箱:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" required pattern="\S+@\S+" value="{$list['邮箱']}" name="邮箱" tips="邮箱不正确"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">所在省市:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" value="{$list['省份']} {$list['城市']}" id='ss' name="省市"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">籍贯:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" value="{$list['籍贯']}" id='ss2' name="籍贯"/>
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">通讯地址:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="text" value="{$list['通讯地址']}" name="通讯地址" />
+                            </div>
+                        </div>
+                        <div class="weui_cell">
+                            <div class="weui_cell_hd"><label for="" class="weui_label">邮编:</label></div>
+                            <div class="weui_cell_bd weui_cell_primary">
+                                <input class="weui_input" type="number" required pattern="[0-9]{6}" value="{$list['邮编']}" name="邮编" tips="邮编不正确"/>
+                            </div>
+                        </div>
+                        <div class="weui_btn_area">
+                            <input class="weui_btn weui_btn_primary" type="submit" value="提交" id="formSubmitBtn">
+                        </div>
+                    </div>
+                </form>
+            </div>
+    <script>
+        var $form = $("#form");
+        $form.form();
+        $("#formSubmitBtn").on("click", function(event){
+            $form.validate(function(error){
+                if(error){
+                    alert('信息提交有误');
+                    event.preventDefault();
+                }else{
+
+                    $.toptips('验证通过提交','ok');
+                }
+            });
+
+        });
+    </script>
+
+
 </div>
-{include file="index/footer" /}
+
+
+<div class="weui-footer">
+    <p class="weui-footer-links">
+        <a href="#" class="weui-footer-link">回到顶部</a>
+        <a href="javascript:void(0);" class="weui-footer-link">北大软微</a>
+    </p>
+    <p class="weui-footer-text">Copyright &copy; 2018 北京大学软件与微电子学院</p>
+</div>
+
+<div class="tab-bottom" >
+    <div class="weui_tabbar">
+        <a href="{:url('/')}" class="weui_tabbar_item weui_bar_item_on">
+            <div class="weui_tabbar_icon">
+                <img src="http://weui.shanliwawa.top/weui/images/icon_nav_msg.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">个人信息</p>
+        </a>
+        <a href="{:url('/?s=index/index/changeinfowe')}" class="weui_tabbar_item">
+            <div class="weui_tabbar_icon">
+                <img src="http://weui.shanliwawa.top/weui/images/icon_nav_article.png" alt="">
+            </div>
+            <p class="weui_tabbar_label">完善信息</p>
+        </a>
+
+    </div>
+</div>
+
+</body>
+
+</html>

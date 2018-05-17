@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" type="text/css">
+  <link rel="stylesheet" href="__STATIC__/css/theme.css" type="text/css">
+  <link rel="stylesheet" href="http://res.wx.qq.com/open/libs/weui/0.4.3/weui.min.css" type="text/css"></head>
+
+<body>
+<nav class="navbar navbar-expand-md navbar-dark text-right text-lowercase border-primary bg-dark">
+  <div class="container">
+    <a class="navbar-brand" href="{:url('/')}">首页|欢迎{$Think.session.cname}</a>
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="http://www.ss.pku.edu.cn/">北京大学软件与微电子学院</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="https://icampus.ss.pku.edu.cn/">综合信息服务平台</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="http://bbs.ss.pku.edu.cn/">教学论坛</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">内推入口</a>
+        </li>
+      </ul>
+      <form class="form-inline m-0 p-0">
+        <input class="form-control mr-2" type="text" placeholder="Search">
+        <button class="btn btn-primary" type="submit">Search</button>
+      </form>
+    </div>
+  </div>
+</nav>
+<nav class="navbar navbar-expand-md navbar-dark bg-headblue bg-secondary">
+  <a class="navbar-brand" href="#">
+    <img src="__STATIC__/image/logo_1.png" width="200" class="d-inline-block align-top ml-auto p-0" alt=""> </a>
+  <div class="container">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar2SupportedContent" aria-controls="navbar2SupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse text-center justify-content-end" id="navbar2SupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link" href="http://www.pku.edu.cn/campuslife/xl/index.htm">
+            <i class="fa d-inline fa-lg fa-bookmark-o"></i>校历</a>
+        </li>
+      </ul>
+      <a class="btn navbar-btn ml-2 btn-secondary" href="{:url('/')}">{$Think.session.name?$Think.session.name:"登录"}</a>
+      <a class="btn navbar-btn ml-2 btn-secondary" href="{:url('/?s=index/index/logout')}">退出</a>
+    </div>
+  </div>
+</nav>
+<nav class="navbar navbar-expand-md bg-primary navbar-dark">
+  <div class="container">
+    <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbar3SupportedContent" aria-controls="navbar3SupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse text-center justify-content-left" id="navbar3SupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item text-warning">
+          <a class="nav-link" href="{:url('/?s=index/index/info')}">个人中心</a>
+        </li>
+        <li class="nav-item text-dark">
+          <a class="nav-link" href="{:url('/?s=index/index/dongtai')}">学院动态</a>
+        </li>
+        <li class="nav-item text-dark">
+          <a class="nav-link" href="{:url('/?s=index/index/huodong')}">校友活动</a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<div class="py-5 bg-gradient filter-light">
+  <div class="container">
+    <div class="row">
+      <div class="col-md-3"> </div>
+      <div class="col-md-6">
+        <div class="card text-white p-5 bg-primary">
+          <div class="card-body">
+            <h1 class="mb-4">登陆
+              <br> </h1>
+            <form action="{:url('/?s=index/index/login')}" method="post">
+              <div class="form-group">
+                <label>学号
+                  <br> </label>
+                <input type="学号" class="form-control" name="id" placeholder="学号"> </div>
+              <div class="form-group">
+                <label>密码
+                  <br> </label>
+                <input type="password" class="form-control" name="password" placeholder="初始密码为八位生日"> </div>
+              <button type="submit" class="btn btn-secondary">登陆
+                <br> </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

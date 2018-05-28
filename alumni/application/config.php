@@ -209,11 +209,11 @@ return [
         'type'           => '',
         // 是否自动开启 SESSION
         'auto_start'     => true,
-        //'SESSION_OPTIONS' => array(
-            //和其他运行在同一个服务器的sessio进行隔离，避免相互干扰
-       //     'path' => '/session/tmp_s/',
-        //    'expire' => 3600,
-        //)
+        'SESSION_OPTIONS' => array(
+            //和其他运行在同一个服务器的session进行隔离，避免相互干扰
+            'path' => '/session/tmp_s/',
+            'expire' => 3600,
+        )
     ],
 
     // +----------------------------------------------------------------------

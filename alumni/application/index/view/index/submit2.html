@@ -118,13 +118,13 @@
                         <div class="weui_cell">
                             <div class="weui_cell_hd"><label for="" class="weui_label">入学年份:</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" type="number" required pattern="[2][0-9]{3}" value="{$list['年级（入学）']}" name="入学" tips="入学年份不正确"/>
+                                <input class="weui_input" type="number" required pattern="^[2][0-9]{3}$" value="{$list['年级（入学）']}" name="入学" tips="入学年份不正确"/>
                             </div>
                         </div>
                         <div class="weui_cell">
                             <div class="weui_cell_hd"><label for="" class="weui_label">毕业年份:</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" type="number" required pattern="[2][0-9]{3}" value="{$list['毕业年份']}" name="毕业" tips="毕业年份不正确"/>
+                                <input class="weui_input" type="number" required pattern="^[2][0-9]{3}$" value="{$list['毕业年份']}" name="毕业" tips="毕业年份不正确"/>
                             </div>
                         </div>
                         <div class="weui_cell">
@@ -154,7 +154,7 @@
                         <div class="weui_cell">
                             <div class="weui_cell_hd"><label for="" class="weui_label">手机:</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" type="number" required pattern="[0-9]{11}" value="{$list['手机']}" name="手机" tips="手机号不正确"/>
+                                <input class="weui_input" type="number" required pattern="^[0-9]{11}$" value="{$list['手机']}" name="手机" tips="手机号不正确"/>
                             </div>
                         </div>
                         <div class="weui_cell">
@@ -184,7 +184,7 @@
                         <div class="weui_cell">
                             <div class="weui_cell_hd"><label for="" class="weui_label">邮编:</label></div>
                             <div class="weui_cell_bd weui_cell_primary">
-                                <input class="weui_input" type="number" required pattern="[0-9]{6}" value="{$list['邮编']}" name="邮编" tips="邮编不正确"/>
+                                <input class="weui_input" type="number" required pattern="^[0-9]{6}$" value="{$list['邮编']}" name="邮编" tips="邮编不正确"/>
                             </div>
                         </div>
                         <div class="weui_btn_area">
@@ -226,13 +226,13 @@
     <div class="weui_tabbar">
         <a href="{:url('/')}" class="weui_tabbar_item weui_bar_item_on">
             <div class="weui_tabbar_icon">
-                <img src="http://weui.shanliwawa.top/weui/images/icon_nav_msg.png" alt="">
+                <img src="__STATIC__/image/icon_nav_msg.png" alt="">
             </div>
             <p class="weui_tabbar_label">个人信息</p>
         </a>
         <a href="{:url('/?s=index/index/changeinfowe')}" class="weui_tabbar_item">
             <div class="weui_tabbar_icon">
-                <img src="http://weui.shanliwawa.top/weui/images/icon_nav_article.png" alt="">
+                <img src="__STATIC__/image/icon_nav_article.png" alt="">
             </div>
             <p class="weui_tabbar_label">完善信息</p>
         </a>

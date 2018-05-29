@@ -70,8 +70,9 @@ class Admin extends Controller
         if(Session::has('name')){
             $db = db('userinfo');
             $list =$db->where('手机','')->whereOr('手机',null)->select();
+            $this->assign('button_visible',1);
             $this->assign('list',$list);
-            return view('tables');
+            return view('tables2');
         }
         else {
             $this->error('请先登录');

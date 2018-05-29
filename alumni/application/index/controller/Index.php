@@ -47,8 +47,13 @@ class Index extends Controller
     {
         //若已经登录
         if(Session::has('name')){
+            #如果是微信登录，重新开始计时，session保存时间为一周
+            if(Session::has('wechat')){
+                Session::set('session_start_time',time());
+                Session::set('expire',3600*24*7);
+            }
             //判断会话是否过期
-            if(time()-\session('session_start_time')>\session('expire')){
+            else if(time()-\session('session_start_time')>\session('expire')){
                 \session_destroy();
                 $this->error('会话过期，请重新登录', url('/'));
             }
@@ -148,21 +153,7 @@ class Index extends Controller
         }
 
     }
-    //留存旧版首页代码。可删
-    private function index2(Request $request)
-    {
-        Session::prefix('stu');
-        //如果已登陆就跳转到登陆成功页面，否则进入登陆页面
-        if(Session::has('name')){
-            $username=$request->session('name');
-            $this->assign('username',$username);
-            return view('dongtai');
-        }
-        else{
-            return view('loadpage');
-        }
 
-    }
 
     //处理登录
     public function login(Request $request)

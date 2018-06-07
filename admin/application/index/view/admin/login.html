@@ -50,6 +50,14 @@
                                 <div class="form-group">
                                     <input class="form-control" placeholder="密码" name="password" type="password" value="">
                                 </div>
+                                <div class="form-group row">
+                                    <div class="col-md-7">
+                                        <img src="{:captcha_src()}" style="width: 200px" alt="captcha" onclick="this.src='{:captcha_src()}?x='+Math.random();"/>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <input type="text" class="form-control" name="captcha" placeholder="请输入验证码">
+                                    </div>
+                                </div>
                                 <div class="checkbox">
                                     <label>
                                         <input name="remember" type="checkbox" value="Remember Me">记住密码

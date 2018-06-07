@@ -30,7 +30,11 @@ class Admin extends Controller
         }
     }
 
-    public function login(Request $request){
+    public function login(Request $request,$captcha){
+        if(!captcha_check($captcha)){
+            //验证失败
+            $this->error('验证码错误',url('/'));
+        };
         $db=db('rootadmin');
         $list = $db->where('Admin', $request->post('id'))->select();
         if ($list) {
@@ -86,6 +90,20 @@ class Admin extends Controller
             if($id){
                 $list =$db->where('学号',$id)->select();
                 $this->assign('list',$list[0]);
+                $login_time=Db::table('user_records')->where('id',$id)->select();
+                if($login_time and $login_time[0]['logintimes']>0){
+                    $this->assign('login_time',date('Y-m-d',$login_time[0]['lastlogin']));
+                }
+                else{
+                    $this->assign('login_time','无记录');
+                }
+                if($login_time and $login_time[0]['changetimes']>0){
+                    $this->assign('change_time',date('Y-m-d',$login_time[0]['lastchange']));
+                }
+                else{
+                    $this->assign('change_time','无记录');
+                }
+
             }
             else{
                 $this->assign('list',[]);

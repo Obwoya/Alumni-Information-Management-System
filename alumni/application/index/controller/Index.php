@@ -33,40 +33,70 @@ class Index extends Controller
 
     //判断是否登录，同时判断session是否过期
     private function is_login(){
-        if(Session::has('name') and time()-\session('session_start_time')>\session('expire')){
+        if(Session::has('name') and cookie('name') and time()-\session('session_start_time')>\session('expire')){
             \session_destroy();
             $this->error('会话过期，请重新登录', url('/'));
         }
-        if(!Session::has('name')){
+        if(!Session::has('name') or !cookie('name')){
             $this->error('请先登录', url('/'));
         }
+    }
+    //用于记录登录次数和时间
+    private function login_record($id){
+        $rec_list=Db::table('user_records')->where('id',$id)->select();
+        if($rec_list){
+            Db::table('user_records')->update([
+                'lastlogin'=>time(),
+                'logintimes' => ['exp','logintimes+1'],
+                'id'=>$id,
+            ]);
+        }
+        else{
+            $data=['id'=>$id,'lastlogin'=>time(),'logintimes'=>1,'lastchange'=>0,'changetimes'=>0];
+            Db::table('user_records')->insert($data);
+        }
+        $data=['id'=>$id,'time'=>time()];
+        Db::table('login_records')->insert($data);
+    }
+    //用于记录修改信息次数和时间
+    private function change_record($id){
+        Db::table('user_records')->update([
+            'lastchange'=>time(),
+            'changetimes'=>['exp','changetimes+1'],
+            'id'=>$id,
+        ]);
+        $data=['id'=>$id,'time'=>time()];
+        Db::table('change_records')->insert($data);
     }
 
     //首页
     public function index(Request $request)
     {
         //若已经登录
-        if(Session::has('name')){
+        if(Session::has('name') or cookie('name')){
+
             #如果是微信登录，重新开始计时，session保存时间为一周
             if(Session::has('wechat')){
                 Session::set('session_start_time',time());
                 Session::set('expire',3600*24*7);
+                cookie('name',md5(\session('name')),\session('expire'));
             }
             //判断会话是否过期
             else if(time()-\session('session_start_time')>\session('expire')){
                 \session_destroy();
+                cookie(null,'think_');
                 $this->error('会话过期，请重新登录', url('/'));
             }
             $db = db('userinfo');
-            $list = $db->where('学号',$request->session('name'))->select();
+            $list = $db->where('学号',\session('name'))->select();
 
             if($list){  //数据库如果已有该人信息，直接读出
                 $this->assign('list',$list[0]);
                 //echo dump($list[0]);
             }
             else{   //数据库若无此人信息，插入信息，再读出给前端
-                Db::execute("insert into userinfo (学号,姓名) values (?,?)",[$request->session('name'),$request->session('cname')]);
-                $list = $db->where('学号',$request->session('name'))->select();
+                Db::table('userinfo')->insert(['学号'=>\session('name'),'姓名'=>\session('cname')]);
+                $list = $db->where('学号',\session('name'))->select();
                 $this->assign('list',$list);
                 //echo dump($list[0]);
             }
@@ -94,6 +124,24 @@ class Index extends Controller
                 Session::set('wechat',1);
                 Session::set('cname',$jso->data->name);
                 Session::set('name',$jso->data->card_number);
+                Session::set('expire',3600*24*7);
+                cookie('name',md5(\session('name')),\session('expire'));
+
+                $db = db('userinfo');
+                $list = $db->where('学号',\session('name'))->select();
+
+                if($list){  //数据库如果已有该人信息，直接读出
+                    $this->assign('list',$list[0]);
+                    //echo dump($list[0]);
+                }
+                else{   //数据库若无此人信息，插入信息，再读出给前端
+                    Db::table('userinfo')->insert(['学号'=>\session('name'),'姓名'=>\session('cname')]);
+                    $list = $db->where('学号',\session('name'))->select();
+                    $this->assign('list',$list);
+                    //echo dump($list[0]);
+                }
+
+                $this->login_record(\session('name'));//记录登录
                 return view('information2');
             }
         }
@@ -112,6 +160,22 @@ class Index extends Controller
                 Session::set('wechat',1);
                 Session::set('cname',$jso->data->name);
                 Session::set('name',$jso->data->card_number);
+                Session::set('expire',3600*24*7);
+                cookie('name',md5(\session('name')),\session('expire'));
+                $db = db('userinfo');
+                $list = $db->where('学号',\session('name'))->select();
+
+                if($list){  //数据库如果已有该人信息，直接读出
+                    $this->assign('list',$list[0]);
+                    //echo dump($list[0]);
+                }
+                else{   //数据库若无此人信息，插入信息，再读出给前端
+                    Db::table('userinfo')->insert(['学号'=>\session('name'),'姓名'=>\session('cname')]);
+                    $list = $db->where('学号',\session('name'))->select();
+                    $this->assign('list',$list);
+                    //echo dump($list[0]);
+                }
+                $this->login_record(\session('name'));//记录登录
                 return view('information2');
             }
         }
@@ -123,42 +187,16 @@ class Index extends Controller
 
     }
 
-    public function index1(Request $request)
-    {
-        //若已经登录
-        if(Session::has('name')){
-            //判断会话是否过期
-            if(time()-\session('session_start_time')>\session('expire')){
-                \session_destroy();
-                $this->error('会话过期，请重新登录', url('/'));
-            }
-
-            $db = db('userinfo');
-            $list = $db->where('学号',$request->session('name'))->select();
-            if($list){  //数据库如果已有该人信息，直接读出
-                $this->assign('list',$list[0]);
-                //echo dump($list[0]);
-                return view('information2');
-            }
-            else{   //数据库若无此人信息，插入信息，再读出给前端
-                Db::execute("insert into userinfo (学号,姓名) values (?,?)",[$request->session('name'),$request->session('cname')]);
-                $list = $db->where('学号',$request->session('name'))->select();
-                $this->assign('list',$list);
-                //echo dump($list[0]);
-                return view('information2');
-            }
-        }
-        else{
-            $this->error('请先登录', url('/'));
-        }
-
-    }
 
 
     //处理登录
-    public function login(Request $request)
+    public function login(Request $request,$captcha)
     {
         //处理登录
+        if(!captcha_check($captcha)){
+            //验证失败
+            $this->error('验证码错误',url('/'));
+        };
         $db = db('users');
         $list = $db->where('id', $request->post('id'))->select();
         Session::set('session_start_time',time());
@@ -169,19 +207,21 @@ class Index extends Controller
             Session::set('expire',3600);
         }
         if ($list) {
-            if ($list[0]['password'] == $request->post('password')) {
+            if (md5($list[0]['password']) === $request->post('password') and $list[0]['id'] === $request->post('id')) {
                 //$db->where('id', $request->post('id'))->update(['status' => 1]);
                 $db = db('userinfo');
-                $list = $db->where('学号',$request->post('id'))->select();
+                $list2 = $db->where('学号',$request->post('id'))->select();
 
-                Session::set('cname',$list[0]["姓名"]);
+                Session::set('cname',$list2[0]["姓名"]);
                 Session::set('name',$request->post('id'));
-                $this->success('登录成功，'.Session::get('name'),url('/'));
+                $this->login_record(\session('name'));//记录登录
+                cookie('name',md5(\session('name')),\session('expire'));//设置cookie
+                $this->success('登录成功，'.\session('name'),url('/'));
             } else {
-                $this->error('密码错误');
+                $this->error('用户名或密码错误',url('/'));
             }
         } else {
-            $this->error('用户名不存在');
+            $this->error('用户名或密码错误',url('/'));
         }
     }
 
@@ -189,9 +229,9 @@ class Index extends Controller
     public function logout(Request $request)
     {
         //退出，销毁session
-        Session::delete('wechat');
-        Session::delete('name');
-        Session::delete('cname');
+        \session_start();
+        \session_destroy();
+        cookie(null,'think_');
         return view('loadpage');
     }
 
@@ -201,9 +241,9 @@ class Index extends Controller
         $this->is_login();//判断是否登陆以及session是否过期
 
         $db = db('userinfo');
-        $list = $db->where('学号',$request->session('name'))->select();
+        $list = $db->where('学号',\session('name'))->select();
         $this->assign('list',$list[0]);
-        $this->assign('username',$request->session('name'));
+        $this->assign('username',\session('name'));
         return view('submit');
 
     }
@@ -213,15 +253,15 @@ class Index extends Controller
         $this->is_login();//判断是否登陆以及session是否过期
 
         $db = db('userinfo');
-        $list = $db->where('学号',$request->session('name'))->select();
+        $list = $db->where('学号',\session('name'))->select();
         $this->assign('list',$list[0]);
-        $this->assign('username',$request->session('name'));
+        $this->assign('username',\session('name'));
         return view('submit2');
 
     }
 
     //提交修改的个人信息
-    public function submit(Request $request)
+    private function submit(Request $request)
     {
         $this->is_login();//判断是否登陆以及session是否过期
 
@@ -240,8 +280,6 @@ class Index extends Controller
     {
         $this->is_login();//判断是否登陆以及session是否过期
 
-        //echo dump($request->post());
-        $db = db('userinfo');
         Db::execute("update userinfo set 方向=:d1,籍贯=:d2,手机=:d3,邮箱=:d4,省份=:d5,城市=:d6,
 通讯地址=:d7,行业=:d8,现工作单位=:d9,职务=:d10,性别=:d11,导师=:d12,年级（入学）=:d13,毕业年份=:d14,出生日期=:d15,邮编=:d16 where 学号=:id;",
             ['d1'=>$request->post('方向'),'d2'=>$request->post('籍贯'),'d3'=>$request->post('手机'),
@@ -251,6 +289,17 @@ class Index extends Controller
                 'd10'=>$request->post('职务'),'d11'=>$request->post('性别'),'d12'=>$request->post('导师'),
                 'd13'=>$request->post('入学'),'d14'=>$request->post('毕业'),'d15'=>$request->post('出生日期'),
                 'd16'=>$request->post('邮编'),'id'=>$request->session('name')]);
+        /*使用内置方法会报错
+         $data=['方向'=>$request->post('方向'),'籍贯'=>$request->post('籍贯'),'手机'=>$request->post('手机'),
+            '邮箱'=>$request->post('邮箱'),'省份'=>explode(" ",$request->post('省市'))[0],
+            '城市'=>explode(" ",$request->post('省市'))[1],
+            '通讯地址'=>$request->post('通讯地址'),'行业'=>$request->post('行业'),'现工作单位'=>$request->post('现工作单位'),
+            '职务'=>$request->post('职务'),'性别'=>$request->post('性别'),'导师'=>$request->post('导师'),
+            '年级（入学）'=>$request->post('入学'),'毕业年份'=>$request->post('毕业'),'出生日期'=>$request->post('出生日期'),
+            '邮编'=>$request->post('邮编'),'学号'=>$request->session('name')];
+        Db::table('userinfo')->update($data);
+         */
+        $this->change_record(session('name'));//记录修改信息次数和时间
         return view('success');
     }
 
@@ -277,7 +326,7 @@ class Index extends Controller
             return view('information');
         }
         else{   //数据库若无此人信息，插入信息，再读出给前端
-            Db::execute("insert into userinfo (学号,姓名) values (?,?)",[$request->session('name'),$request->session('cname')]);
+            Db::table('userinfo')->insert(['学号'=>\session('name'),'姓名'=>\session('cname')]);
             $list = $db->where('学号',$request->session('name'))->select();
             $this->assign('list',$list);
             //echo dump($list[0]);
